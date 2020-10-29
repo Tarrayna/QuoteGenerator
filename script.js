@@ -14,7 +14,7 @@ function showLoadingSpinner(){
     loader.hidden = false;
 }
 //Hide Loading
-function showLoadingSpinner(){
+function hideLoadingSpinner(){
     if (!loader.hidden)
     {
         quoteContainer.hidden = false;
@@ -44,13 +44,13 @@ async function getQuote()
         quoteText.innerText = data.quoteText;
 
         //Stop Loader Show Quote
-        showLoadingSpinner();
+        hideLoadingSpinner();
 
     } catch (error)
     {
-        //This kind of sucks. We can get in a infinite loop and never actually load a quote
-        //TODO:Worth adding a counter possibly to not continue getting quote on errors
-        await getQuote();
+        //Not Super Great. Can lead to infinite loop. And never get to the quote if we continously get an error
+        //TODO:Consider a counter to stop trying after a number of attempts
+         getQuote();
     }
 }
 
