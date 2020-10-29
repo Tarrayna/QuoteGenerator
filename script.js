@@ -9,12 +9,12 @@ const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader')
 
 //Show Loading
-function loading(){
+function showLoadingSpinner(){
     quoteContainer.hidden = true;
     loader.hidden = false;
 }
 //Hide Loading
-function loadingComplete(){
+function showLoadingSpinner(){
     if (!loader.hidden)
     {
         quoteContainer.hidden = false;
@@ -24,7 +24,7 @@ function loadingComplete(){
 //Get Quote From API
 async function getQuote()
 {
-    loading();
+    showLoadingSpinner();
     const proxyUrl = 'https://whispering-tor-04671.herokuapp.com/'
     //This is where the quote for the app is coming from
     const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
@@ -44,12 +44,13 @@ async function getQuote()
         quoteText.innerText = data.quoteText;
 
         //Stop Loader Show Quote
-        loadingComplete();
+        showLoadingSpinner();
 
     } catch (error)
     {
+        //This kind of sucks. We can get in a infinite loop and never actually load a quote
+        //TODO:Worth adding a counter possibly to not continue getting quote on errors
         await getQuote();
-        console.log('whoops,no quote', error);
     }
 }
 
